@@ -411,107 +411,89 @@ const words = [
 ===================================================== */
 
 
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
+const words = [
+
+    ["ありがとう","Arigatou","01_arigatou.wav"],
+    ["あぶない","Abunai","02_abunai.wav"],
+    ["いたい","Itai","03_itai.wav"],
+    ["いぬ","Inu","04_inu.wav"],
+    ["うみ","Umi","05_umi.wav"],
+    ["うそ","Uso","06_uso.wav"],
+    ["えっと","Etto","07_etto.wav"],
+    ["えき","Eki","08_eki.wav"],
+    ["おめでとう","Omedetou","09_omedetou.wav"],
+    ["おいしい","Oishii","10_oishii.wav"]
+
+];
 
 
-let wordNumber =
-    params.get("word");
+const params = new URLSearchParams(
+    window.location.search
+);
+
+const requestedWord = params.get("word");
 
 
-/* إذا لم يوجد رقم */
+let index = -1;
 
-if(!wordNumber){
 
-    wordNumber = "01";
+/* البحث بالكلمة اليابانية */
+
+if (requestedWord) {
+
+    index = words.findIndex(function(item) {
+
+        return item[0] === requestedWord;
+
+    });
 
 }
 
 
-/* إزالة أي رموز غير رقمية */
+/* إذا لم يوجد word نعرض الكلمة الأولى */
 
-wordNumber =
-    wordNumber.replace(
-        /[^0-9]/g,
-        ""
-    );
+if (!requestedWord) {
 
-
-/* إضافة صفر إذا كان الرقم مفرد */
-
-if(wordNumber.length === 1){
-
-    wordNumber =
-        "0" + wordNumber;
+    index = 0;
 
 }
 
 
-/* تحويل إلى رقم */
+/* عرض النتيجة */
 
-const index =
-    parseInt(wordNumber,10) - 1;
-
-
-/* =====================================================
-   عرض الكلمة
-===================================================== */
-
-
-if(
-
-    isNaN(index) ||
-
-    index < 0 ||
-
-    index >= words.length
-
-){
+if (index === -1) {
 
     document
         .getElementById("normalContent")
-        .style.display="none";
+        .style.display = "none";
 
     document
         .getElementById("error")
-        .style.display="block";
+        .style.display = "block";
 
-}
+} else {
 
-else{
-
-
-    const data =
-        words[index];
-
+    const data = words[index];
 
     document
         .getElementById("number")
         .textContent =
-        "Word " +
-        wordNumber;
-
+        "Word " + String(index + 1).padStart(2, "0");
 
     document
         .getElementById("word")
         .textContent =
         data[0];
 
-
     document
         .getElementById("romaji")
         .textContent =
         data[1];
 
-
     document
         .getElementById("audio")
         .src =
-        "Japan/" +
-        data[2];
-
+        "Japan/" + data[2];
 
 }
 
