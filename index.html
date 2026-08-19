@@ -1,10 +1,9 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Japanese Learn</title>
@@ -23,28 +22,14 @@ html,body{
 }
 
 body{
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     overflow:hidden;
 
     background:
-        radial-gradient(
-            circle at 20% 20%,
-            #003b46,
-            transparent 35%
-        ),
-
-        radial-gradient(
-            circle at 80% 80%,
-            #001b44,
-            transparent 35%
-        ),
-
+        radial-gradient(circle at 20% 20%, #003b46, transparent 35%),
+        radial-gradient(circle at 80% 80%, #001b44, transparent 35%),
         #020509;
 
     color:white;
@@ -55,15 +40,11 @@ body{
         sans-serif;
 }
 
-
 body::before{
-
     content:"";
-
     position:fixed;
 
     width:600px;
-
     height:600px;
 
     border-radius:50%;
@@ -80,7 +61,6 @@ body::before{
     pointer-events:none;
 }
 
-
 @keyframes move{
 
     from{
@@ -92,7 +72,6 @@ body::before{
     }
 
 }
-
 
 .content{
 
@@ -114,17 +93,11 @@ body::before{
         rgba(0,255,255,.2);
 
     box-shadow:
-
-        0 0 30px
-        rgba(0,255,255,.15),
-
-        0 0 100px
-        rgba(0,0,0,.8);
+        0 0 30px rgba(0,255,255,.15),
+        0 0 100px rgba(0,0,0,.8);
 
     backdrop-filter:blur(15px);
-
 }
-
 
 .number{
 
@@ -137,7 +110,6 @@ body::before{
     opacity:.7;
 }
 
-
 #word{
 
     font-size:70px;
@@ -147,14 +119,10 @@ body::before{
     color:white;
 
     text-shadow:
-
         0 0 10px white,
-
         0 0 25px #00ffff,
-
         0 0 50px #0099ff;
 }
-
 
 #romaji{
 
@@ -164,7 +132,6 @@ body::before{
 
     margin-bottom:35px;
 }
-
 
 .buttons{
 
@@ -178,7 +145,6 @@ body::before{
 
     direction:ltr;
 }
-
 
 button{
 
@@ -204,18 +170,14 @@ button{
     transition:.25s;
 }
 
-
 button:hover{
 
     transform:scale(1.06);
 
     box-shadow:
-
         0 0 20px #00cfff,
-
         0 0 40px #0066ff;
 }
-
 
 .slow{
 
@@ -235,16 +197,12 @@ button:hover{
         );
 }
 
-
 .slow:hover{
 
     box-shadow:
-
         0 0 20px #38d66b,
-
         0 0 40px #168a45;
 }
-
 
 #error{
 
@@ -255,33 +213,23 @@ button:hover{
     font-size:28px;
 }
 
-
 @media(max-width:600px){
 
     .content{
-
         padding:40px 20px;
-
     }
 
     #word{
-
         font-size:45px;
-
     }
 
     #romaji{
-
         font-size:20px;
-
     }
 
     button{
-
         font-size:17px;
-
         padding:15px 25px;
-
     }
 
 }
@@ -290,158 +238,322 @@ button:hover{
 
 </head>
 
-
 <body>
-
 
 <div class="content">
 
-
     <div id="normalContent">
 
-
-        <div
-            class="number"
-            id="number"
-        >
-
+        <div class="number" id="number">
             Word 01
-
         </div>
-
 
         <h1 id="word">
-
             ありがとう
-
         </h1>
 
-
         <div id="romaji">
-
             Arigatou
-
         </div>
-
 
         <div class="buttons">
 
-
-            <button
-                onclick="playNormal()"
-            >
-
+            <button onclick="playNormal()">
                 🔊 تشغيل الصوت
-
             </button>
-
 
             <button
                 class="slow"
                 onclick="playSlow()"
                 title="تشغيل ببطء"
             >
-
                 🐢
-
             </button>
-
 
         </div>
 
-
-        <audio
-            id="audio"
-            preload="auto"
-        ></audio>
-
+        <audio id="audio" preload="auto"></audio>
 
     </div>
-
 
     <div id="error">
-
         الكلمة غير موجودة
-
     </div>
-
 
 </div>
 
-
 <script>
 
-
 /* =====================================================
-   الكلمات
+   142 كلمة
 ===================================================== */
-
 
 const words = [
 
-    ["ありがとう","Arigatou","01_arigatou.wav"],
+["ありがとう","Arigatou","01_arigatou.wav"],
+["あぶない","Abunai","02_abunai.wav"],
 
-    ["あぶない","Abunai","02_abunai.wav"],
+["いたい","Itai","03_itai.wav"],
+["いぬ","Inu","04_inu.wav"],
 
-    ["いたい","Itai","03_itai.wav"],
+["うみ","Umi","05_umi.wav"],
+["うそ","Uso","06_uso.wav"],
 
-    ["いぬ","Inu","04_inu.wav"],
+["えっと","Etto","07_etto.wav"],
+["えき","Eki","08_eki.wav"],
 
-    ["うみ","Umi","05_umi.wav"],
+["おめでとう","Omedetou","09_omedetou.wav"],
+["おいしい","Oishii","10_oishii.wav"],
 
-    ["うそ","Uso","06_uso.wav"],
+["かわいい","Kawaii","11_kawaii.wav"],
+["かぞく","Kazoku","12_kazoku.wav"],
 
-    ["えっと","Etto","07_etto.wav"],
+["きれい","Kirei","13_kirei.wav"],
+["きもちいい","Kimochiii","14_kimochiii.wav"],
 
-    ["えき","Eki","08_eki.wav"],
+["くる","Kuru","15_kuru.wav"],
+["ください","Kudasai","16_kudasai.wav"],
 
-    ["おめでとう","Omedetou","09_omedetou.wav"],
+["けん","Ken","17_ken.wav"],
+["けっこう","Kekkou","18_kekkou.wav"],
 
-    ["おいしい","Oishii","10_oishii.wav"]
+["こっち","Kocchi","19_kocchi.wav"],
+["こわい","Kowai","20_kowai.wav"],
+
+["がくせい","Gakusei","21_gakusei.wav"],
+["がっこう","Gakkou","22_gakkou.wav"],
+
+["ぎんこう","Ginkou","23_ginkou.wav"],
+["ぎゅうにく","Gyuuniku","24_gyuuniku.wav"],
+
+["ぐあい","Guai","25_guai.wav"],
+["ぐらい","Gurai","26_gurai.wav"],
+
+["げんき","Genki","27_genki.wav"],
+["げんかん","Genkan","28_genkan.wav"],
+
+["ごめん","Gomen","29_gomen.wav"],
+["ごはん","Gohan","30_gohan.wav"],
+
+["さようなら","Sayounara","31_sayounara.wav"],
+["さかな","Sakana","32_sakana.wav"],
+
+["しんぱい","Shinpai","33_shinpai.wav"],
+["しあわせ","Shiawase","34_shiawase.wav"],
+
+["すごい","Sugoi","35_sugoi.wav"],
+["すき","Suki","36_suki.wav"],
+
+["せんせい","Sensei","37_sensei.wav"],
+["せかい","Sekai","38_sekai.wav"],
+
+["そう","Sou","39_sou.wav"],
+["そら","Sora","40_sora.wav"],
+
+["ざっし","Zasshi","41_zasshi.wav"],
+["ざんねん","Zannen","42_zannen.wav"],
+
+["じかん","Jikan","43_jikan.wav"],
+["じょうず","Jouzu","44_jouzu.wav"],
+
+["ずっと","Zutto","45_zutto.wav"],
+["ずるい","Zurui","46_zurui.wav"],
+
+["ぜんぶ","Zenbu","47_zenbu.wav"],
+["ぜひ","Zehi","48_zehi.wav"],
+
+["ぞう","Zou","49_zou.wav"],
+["ぞくぞく","Zokuzoku","50_zokuzoku.wav"],
+
+["たすけて","Tasukete","51_tasukete.wav"],
+["たべる","Taberu","52_taberu.wav"],
+
+["ちょっと","Chotto","53_chotto.wav"],
+["ちがう","Chigau","54_chigau.wav"],
+
+["つよい","Tsuyoi","55_tsuyoi.wav"],
+["つかれた","Tsukareta","56_tsukareta.wav"],
+
+["て","Te","57_te.wav"],
+["てつだって","Tetsudatte","58_tetsudatte.wav"],
+
+["ともだち","Tomodachi","59_tomodachi.wav"],
+["とても","Totemo","60_totemo.wav"],
+
+["だいじょうぶ","Daijoubu","61_daijoubu.wav"],
+["だれ","Dare","62_dare.wav"],
+
+["はなぢ","Hanaji","63_hanaji.wav"],
+["ちぢむ","Chijimu","64_chijimu.wav"],
+
+["つづく","Tsuzuku","65_tsuzuku.wav"],
+["つづける","Tsuzukeru","66_tsuzukeru.wav"],
+
+["でんわ","Denwa","67_denwa.wav"],
+["でかける","Dekakeru","68_dekakeru.wav"],
+
+["どうぞ","Douzo","69_douzo.wav"],
+["どこ","Doko","70_doko.wav"],
+
+["なに","Nani","71_nani.wav"],
+["なんで","Nande","72_nande.wav"],
+
+["にほん","Nihon","73_nihon.wav"],
+["にく","Niku","74_niku.wav"],
+
+["ぬるい","Nurui","75_nurui.wav"],
+["ぬの","Nuno","76_nuno.wav"],
+
+["ねこ","Neko","77_neko.wav"],
+["ねる","Neru","78_neru.wav"],
+
+["のみもの","Nomimono","79_nomimono.wav"],
+["のむ","Nomu","80_nomu.wav"],
+
+["はい","Hai","81_hai.wav"],
+["はやい","Hayai","82_hayai.wav"],
+
+["ひと","Hito","83_hito.wav"],
+["ひこうき","Hikouki","84_hikouki.wav"],
+
+["ふたり","Futari","85_futari.wav"],
+["ふゆ","Fuyu","86_fuyu.wav"],
+
+["へや","Heya","87_heya.wav"],
+["へん","Hen","88_hen.wav"],
+
+["ほん","Hon","89_hon.wav"],
+["ほしい","Hoshii","90_hoshii.wav"],
+
+["ばしょ","Basho","91_basho.wav"],
+["ばか","Baka","92_baka.wav"],
+
+["びょういん","Byouin","93_byouin.wav"],
+["びっくり","Bikkuri","94_bikkuri.wav"],
+
+["ぶた","Buta","95_buta.wav"],
+["ぶどう","Budou","96_budou.wav"],
+
+["べんきょう","Benkyou","97_benkyou.wav"],
+["べつ","Betsu","98_betsu.wav"],
+
+["ぼうし","Boushi","99_boushi.wav"],
+["ぼく","Boku","100_boku.wav"],
+
+["パン","Pan","101_pan.wav"],
+["ぱんつ","Pantsu","102_pantsu.wav"],
+
+["ぴかぴか","Pikapika","103_pikapika.wav"],
+["ぴったり","Pittari","104_pittari.wav"],
+
+["プリン","Purin","105_purin.wav"],
+["プール","Puuru","106_puuru.wav"],
+
+["ペン","Pen","107_pen.wav"],
+["ペット","Petto","108_petto.wav"],
+
+["ポケット","Poketto","109_poketto.wav"],
+["ポスト","Posuto","110_posuto.wav"],
+
+["まって","Matte","111_matte.wav"],
+["まだ","Mada","112_mada.wav"],
+
+["みず","Mizu","113_mizu.wav"],
+["みて","Mite","114_mite.wav"],
+
+["むり","Muri","115_muri.wav"],
+["むずかしい","Muzukashii","116_muzukashii.wav"],
+
+["め","Me","117_me.wav"],
+["めずらしい","Mezurashii","118_mezurashii.wav"],
+
+["もっと","Motto","119_motto.wav"],
+["もちろん","Mochiron","120_mochiron.wav"],
+
+["やばい","Yabai","121_yabai.wav"],
+["やめて","Yamete","122_yamete.wav"],
+
+["ゆめ","Yume","123_yume.wav"],
+["ゆっくり","Yukkuri","124_yukkuri.wav"],
+
+["よかった","Yokatta","125_yokatta.wav"],
+["よる","Yoru","126_yoru.wav"],
+
+["らいねん","Rainen","127_rainen.wav"],
+["らく","Raku","128_raku.wav"],
+
+["りんご","Ringo","129_ringo.wav"],
+["りょうり","Ryouri","130_ryouri.wav"],
+
+["るす","Rusu","131_rusu.wav"],
+["るすばん","Rusuban","132_rusuban.wav"],
+
+["れんしゅう","Renshuu","133_renshuu.wav"],
+["れきし","Rekishi","134_rekishi.wav"],
+
+["ろく","Roku","135_roku.wav"],
+["ろうか","Rouka","136_rouka.wav"],
+
+["わかった","Wakatta","137_wakatta.wav"],
+["わからない","Wakaranai","138_wakaranai.wav"],
+
+["これを","Korewo","139_korewo.wav"],
+["みずを","Mizuwo","140_mizuwo.wav"],
+
+["ごはん","Gohan","141_gohan.wav"],
+["みかん","Mikan","142_mikan.wav"]
 
 ];
 
 
 /* =====================================================
-   قراءة الكلمة من الرابط
+   قراءة رقم الكلمة من QR
 ===================================================== */
-
 
 const params =
     new URLSearchParams(
         window.location.search
     );
 
-
 const requestedWord =
     params.get("word");
-
-
-/* =====================================================
-   البحث
-===================================================== */
 
 
 let index = 0;
 
 
+/* رقم مثل 01 */
+
 if(requestedWord){
 
-    index = words.findIndex(
-        function(item){
+    const number =
+        parseInt(requestedWord,10);
 
-            return item[0] === requestedWord;
+    if(
+        !isNaN(number) &&
+        number >= 1 &&
+        number <= words.length
+    ){
 
-        }
-    );
+        index = number - 1;
+
+    }else{
+
+        index =
+            words.findIndex(
+                function(item){
+                    return item[0] === requestedWord;
+                }
+            );
+
+    }
 
 }
 
 
 /* =====================================================
-   إذا لم نجد الكلمة
+   عرض الكلمة
 ===================================================== */
-
 
 if(index === -1){
 
@@ -453,19 +565,10 @@ if(index === -1){
         .getElementById("error")
         .style.display = "block";
 
-}
-
-
-/* =====================================================
-   عرض الكلمة
-===================================================== */
-
-
-else{
+}else{
 
     const data =
         words[index];
-
 
     document
         .getElementById("number")
@@ -473,31 +576,27 @@ else{
         "Word " +
         String(index + 1).padStart(2,"0");
 
-
     document
         .getElementById("word")
         .textContent =
         data[0];
-
 
     document
         .getElementById("romaji")
         .textContent =
         data[1];
 
-
     document
         .getElementById("audio")
         .src =
-            "./" + data[2];
+        "./" + data[2];
 
 }
 
 
 /* =====================================================
-   الصوت العادي
+   تشغيل الصوت
 ===================================================== */
-
 
 function playNormal(){
 
@@ -516,9 +615,8 @@ function playNormal(){
 
 
 /* =====================================================
-   الصوت البطيء
+   تشغيل ببطء
 ===================================================== */
-
 
 function playSlow(){
 
@@ -535,10 +633,9 @@ function playSlow(){
 
 }
 
-
 </script>
-
 
 </body>
 
 </html>
+```
