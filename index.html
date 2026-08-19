@@ -11,57 +11,72 @@
 <style>
 
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
 }
 
 html,body{
     width:100%;
-    min-height:100%;
+    height:100%;
 }
 
 body{
-    min-height:100vh;
+
     display:flex;
     justify-content:center;
     align-items:center;
 
+    overflow:hidden;
+
     background:
-        radial-gradient(circle at 20% 20%, #003b52, transparent 40%),
-        radial-gradient(circle at 80% 80%, #001d38, transparent 40%),
-        linear-gradient(135deg,#02050a,#00151f,#02050a);
+        radial-gradient(circle at 20% 20%, #003b46, transparent 35%),
+        radial-gradient(circle at 80% 80%, #001b44, transparent 35%),
+        #020509;
 
     color:white;
-    overflow:hidden;
+
+    font-family:
+        Arial,
+        "Segoe UI",
+        sans-serif;
 }
+
 
 /* خلفية متحركة */
 
 body::before{
+
     content:"";
+
     position:fixed;
-    inset:-50%;
+
+    width:600px;
+    height:600px;
+
+    border-radius:50%;
 
     background:
-        radial-gradient(circle,rgba(0,255,255,.08) 1px,transparent 2px);
+        radial-gradient(
+            circle,
+            rgba(0,255,255,.15),
+            transparent 65%
+        );
 
-    background-size:35px 35px;
-
-    animation:moveBackground 20s linear infinite;
+    animation:move 8s infinite alternate;
 
     pointer-events:none;
 }
 
-@keyframes moveBackground{
+
+@keyframes move{
 
     from{
-        transform:translate(0,0);
+        transform:translate(-20%,-20%);
     }
 
     to{
-        transform:translate(35px,35px);
+        transform:translate(20%,20%);
     }
 
 }
@@ -73,65 +88,77 @@ body::before{
 
     position:relative;
 
-    width:min(650px,90%);
+    width:min(600px,90%);
 
-    padding:55px 30px;
+    padding:50px 30px;
 
     text-align:center;
 
     border-radius:30px;
 
-    background:rgba(10,20,30,.78);
+    background:
+        rgba(10,15,25,.78);
 
-    border:1px solid rgba(0,255,255,.2);
+    border:
+        1px solid
+        rgba(0,255,255,.2);
 
     box-shadow:
-        0 0 30px rgba(0,255,255,.15),
-        0 0 100px rgba(0,0,0,.7);
 
-    backdrop-filter:blur(12px);
+        0 0 30px
+        rgba(0,255,255,.15),
+
+        0 0 100px
+        rgba(0,0,0,.8);
+
+    backdrop-filter:blur(15px);
 
 }
 
 
-/* الكلمة اليابانية */
+/* رقم الكلمة */
 
-#japaneseWord{
+.number{
 
-    font-size:clamp(55px,10vw,95px);
+    color:#00ffff;
+
+    font-size:16px;
+
+    margin-bottom:15px;
+
+    opacity:.7;
+
+}
+
+
+/* الكلمة */
+
+#word{
+
+    font-size:70px;
 
     margin-bottom:10px;
 
-    color:#fff;
+    color:white;
 
     text-shadow:
-        0 0 10px #fff,
-        0 0 25px #00eaff,
-        0 0 50px #008cff;
+
+        0 0 10px white,
+
+        0 0 25px #00ffff,
+
+        0 0 50px #0099ff;
 
 }
 
 
-/* Romaji */
+/* النطق */
 
 #romaji{
 
-    font-size:28px;
+    font-size:25px;
 
-    color:#75eaff;
-
-    margin-bottom:10px;
-
-}
-
-
-/* المعنى */
-
-#meaning{
-
-    font-size:21px;
-
-    color:#ddd;
+    color:#9befff;
 
     margin-bottom:35px;
 
@@ -140,7 +167,7 @@ body::before{
 
 /* الأزرار */
 
-.audio-buttons{
+.buttons{
 
     display:flex;
 
@@ -148,96 +175,95 @@ body::before{
 
     align-items:center;
 
-    gap:12px;
+    gap:15px;
 
     direction:ltr;
 
 }
 
 
-/* الزر الرئيسي */
-
-.main-button{
+button{
 
     border:none;
-
-    padding:17px 35px;
-
-    border-radius:15px;
 
     cursor:pointer;
 
     color:white;
 
+    border-radius:15px;
+
     font-size:20px;
 
+    padding:17px 35px;
+
     background:
-        linear-gradient(45deg,#0066ff,#00cfff);
+        linear-gradient(
+            45deg,
+            #0066ff,
+            #00cfff
+        );
 
     transition:.25s;
 
 }
 
 
-.main-button:hover{
+button:hover{
 
     transform:scale(1.06);
 
     box-shadow:
+
         0 0 20px #00cfff,
+
         0 0 40px #0066ff;
 
 }
 
 
-/* زر السلحفاة */
+.slow{
 
-.slow-button{
+    width:60px;
 
-    width:62px;
-    height:62px;
+    height:60px;
 
-    border:none;
+    padding:0;
 
-    border-radius:15px;
-
-    cursor:pointer;
-
-    font-size:29px;
+    font-size:28px;
 
     background:
-        linear-gradient(45deg,#12883f,#35d968);
-
-    transition:.25s;
+        linear-gradient(
+            45deg,
+            #168a45,
+            #38d66b
+        );
 
 }
 
 
-.slow-button:hover{
-
-    transform:scale(1.1);
+.slow:hover{
 
     box-shadow:
-        0 0 20px #35d968,
-        0 0 40px #12883f;
+
+        0 0 20px #38d66b,
+
+        0 0 40px #168a45;
 
 }
 
 
-/* الخطأ */
+/* خطأ */
 
 #error{
 
     display:none;
 
-    font-size:25px;
+    color:#ff5555;
 
-    color:#ff6b6b;
+    font-size:28px;
 
 }
 
-
-/* الهاتف */
 
 @media(max-width:600px){
 
@@ -247,19 +273,19 @@ body::before{
 
     }
 
+    #word{
+
+        font-size:45px;
+
+    }
+
     #romaji{
 
-        font-size:22px;
+        font-size:20px;
 
     }
 
-    #meaning{
-
-        font-size:18px;
-
-    }
-
-    .main-button{
+    button{
 
         font-size:17px;
 
@@ -268,6 +294,7 @@ body::before{
     }
 
 }
+
 
 </style>
 
@@ -280,48 +307,65 @@ body::before{
 <div class="content">
 
 
-    <h1 id="japaneseWord">
-        جاري التحميل...
-    </h1>
+    <div id="normalContent">
 
 
-    <div id="romaji"></div>
+        <div class="number" id="number">
+
+            Word 01
+
+        </div>
 
 
-    <div id="meaning"></div>
+        <h1 id="word">
+
+            ありがとう
+
+        </h1>
+
+
+        <div id="romaji">
+
+            Arigatou
+
+        </div>
+
+
+        <div class="buttons">
+
+
+            <button onclick="playNormal()">
+
+                🔊 تشغيل الصوت
+
+            </button>
+
+
+            <button
+                class="slow"
+                onclick="playSlow()"
+                title="تشغيل ببطء"
+            >
+
+                🐢
+
+            </button>
+
+
+        </div>
+
+
+        <audio id="audio"></audio>
+
+
+    </div>
 
 
     <div id="error">
+
         الكلمة غير موجودة
-    </div>
-
-
-    <div class="audio-buttons">
-
-
-        <button
-            class="main-button"
-            onclick="playNormal()">
-
-            🔊 تشغيل الصوت
-
-        </button>
-
-
-        <button
-            class="slow-button"
-            onclick="playSlow()"
-            title="تشغيل ببطء">
-
-            🐢
-
-        </button>
-
 
     </div>
-
-
-    <audio id="audio"></audio>
 
 
 </div>
@@ -330,298 +374,201 @@ body::before{
 <script>
 
 
-/* =================================================
-   الكلمات
-================================================= */
+/* =====================================================
+   قائمة الكلمات
+===================================================== */
 
-const words = {
 
+const words = [
 
-    "ありがとう":{
+    ["ありがとう","Arigatou","01_arigatou.wav"],
 
-        romaji:"Arigatou",
+    ["あぶない","Abunai","02_abunai.wav"],
 
-        meaning:"شكرًا",
+    ["いたい","Itai","03_itai.wav"],
 
-        audio:"Japan/arigatou.wav"
+    ["いぬ","Inu","04_inu.wav"],
 
-    },
+    ["うみ","Umi","05_umi.wav"],
 
+    ["うそ","Uso","06_uso.wav"],
 
-    "いたい":{
+    ["えっと","Etto","07_etto.wav"],
 
-        romaji:"Itai",
+    ["えき","Eki","08_eki.wav"],
 
-        meaning:"مؤلم / يؤلمني",
+    ["おめでとう","Omedetou","09_omedetou.wav"],
 
-        audio:"Japan/itai.wav"
+    ["おいしい","Oishii","10_oishii.wav"]
 
-    },
+    /* سنضيف باقي الكلمات بعد التأكد أن النظام يعمل */
 
+];
 
-    "いす":{
 
-        romaji:"Isu",
+/* =====================================================
+   قراءة الرقم من الرابط
+===================================================== */
 
-        meaning:"كرسي",
-
-        audio:"Japan/isu.wav"
-
-    },
-
-
-    "うみ":{
-
-        romaji:"Umi",
-
-        meaning:"بحر",
-
-        audio:"Japan/umi.wav"
-
-    },
-
-
-    "えっと":{
-
-        romaji:"Etto",
-
-        meaning:"أمم...",
-
-        audio:"Japan/etto.wav"
-
-    },
-
-
-    "おめでとう":{
-
-        romaji:"Omedetou",
-
-        meaning:"مبروك",
-
-        audio:"Japan/omedetou.wav"
-
-    },
-
-
-    "おかえり":{
-
-        romaji:"Okaeri",
-
-        meaning:"مرحبًا بعودتك",
-
-        audio:"Japan/okaeri.wav"
-
-    },
-
-
-    "かわいい":{
-
-        romaji:"Kawaii",
-
-        meaning:"لطيف / جميل",
-
-        audio:"Japan/kawaii.wav"
-
-    },
-
-
-    "きれい":{
-
-        romaji:"Kirei",
-
-        meaning:"جميل / نظيف",
-
-        audio:"Japan/kirei.wav"
-
-    },
-
-
-    "くる":{
-
-        romaji:"Kuru",
-
-        meaning:"يأتي",
-
-        audio:"Japan/kuru.wav"
-
-    },
-
-
-    "こっち":{
-
-        romaji:"Kocchi",
-
-        meaning:"هنا / هذا الاتجاه",
-
-        audio:"Japan/kocchi.wav"
-
-    },
-
-
-    "がんばれ":{
-
-        romaji:"Ganbare",
-
-        meaning:"ابذل جهدك!",
-
-        audio:"Japan/ganbare.wav"
-
-    },
-
-
-    "ぐらい":{
-
-        romaji:"Gurai",
-
-        meaning:"تقريبًا",
-
-        audio:"Japan/gurai.wav"
-
-    },
-
-
-    "げんき":{
-
-        romaji:"Genki",
-
-        meaning:"بخير / نشيط",
-
-        audio:"Japan/genki.wav"
-
-    },
-
-
-    "ごめん":{
-
-        romaji:"Gomen",
-
-        meaning:"آسف",
-
-        audio:"Japan/gomen.wav"
-
-    }
-
-};
-
-
-/* =================================================
-   قراءة الكلمة من QR
-================================================= */
 
 const params =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
 
 
-const word =
+let wordNumber =
     params.get("word");
 
 
-const japaneseWord =
-    document.getElementById("japaneseWord");
+/* إذا لم يوجد رقم */
+
+if(!wordNumber){
+
+    wordNumber = "01";
+
+}
 
 
-const romaji =
-    document.getElementById("romaji");
+/* إزالة أي رموز غير رقمية */
+
+wordNumber =
+    wordNumber.replace(
+        /[^0-9]/g,
+        ""
+    );
 
 
-const meaning =
-    document.getElementById("meaning");
+/* إضافة صفر إذا كان الرقم مفرد */
+
+if(wordNumber.length === 1){
+
+    wordNumber =
+        "0" + wordNumber;
+
+}
 
 
-const error =
-    document.getElementById("error");
+/* تحويل إلى رقم */
+
+const index =
+    parseInt(wordNumber,10) - 1;
 
 
-const audio =
-    document.getElementById("audio");
+/* =====================================================
+   عرض الكلمة
+===================================================== */
 
 
-/* =================================================
-   تحميل الكلمة
-================================================= */
+if(
 
-if(word && words[word]){
+    isNaN(index) ||
 
-    const data = words[word];
+    index < 0 ||
 
+    index >= words.length
 
-    japaneseWord.textContent =
-        word;
+){
 
+    document
+        .getElementById("normalContent")
+        .style.display="none";
 
-    romaji.textContent =
-        data.romaji;
-
-
-    meaning.textContent =
-        data.meaning;
-
-
-    audio.src =
-        data.audio;
+    document
+        .getElementById("error")
+        .style.display="block";
 
 }
 
 else{
 
-    japaneseWord.textContent =
-        "Japanese Learn";
+
+    const data =
+        words[index];
 
 
-    romaji.textContent =
-        "QR غير صحيح";
+    document
+        .getElementById("number")
+        .textContent =
+        "Word " +
+        wordNumber;
 
 
-    meaning.textContent =
-        "";
+    document
+        .getElementById("word")
+        .textContent =
+        data[0];
 
 
-    error.style.display =
-        "block";
+    document
+        .getElementById("romaji")
+        .textContent =
+        data[1];
+
+
+    document
+        .getElementById("audio")
+        .src =
+        "Japan/" +
+        data[2];
+
 
 }
 
 
-/* =================================================
-   الصوت الطبيعي
-================================================= */
+/* =====================================================
+   الصوت العادي
+===================================================== */
+
 
 function playNormal(){
 
-    if(!audio.src)
-        return;
+
+    const audio =
+        document.getElementById("audio");
 
 
     audio.pause();
 
+
     audio.currentTime=0;
+
 
     audio.playbackRate=1;
 
+
     audio.play();
+
 
 }
 
 
-/* =================================================
+/* =====================================================
    الصوت البطيء
-================================================= */
+===================================================== */
+
 
 function playSlow(){
 
-    if(!audio.src)
-        return;
+
+    const audio =
+        document.getElementById("audio");
 
 
     audio.pause();
 
+
     audio.currentTime=0;
+
 
     audio.playbackRate=.65;
 
+
     audio.play();
 
+
 }
+
 
 </script>
 
@@ -629,3 +576,4 @@ function playSlow(){
 </body>
 
 </html>
+
