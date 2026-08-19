@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Japanese Learn</title>
@@ -24,14 +26,26 @@ html,body{
 body{
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
 
     overflow:hidden;
 
     background:
-        radial-gradient(circle at 20% 20%, #003b46, transparent 35%),
-        radial-gradient(circle at 80% 80%, #001b44, transparent 35%),
+        radial-gradient(
+            circle at 20% 20%,
+            #003b46,
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 80% 80%,
+            #001b44,
+            transparent 35%
+        ),
+
         #020509;
 
     color:white;
@@ -43,8 +57,6 @@ body{
 }
 
 
-/* خلفية متحركة */
-
 body::before{
 
     content:"";
@@ -52,6 +64,7 @@ body::before{
     position:fixed;
 
     width:600px;
+
     height:600px;
 
     border-radius:50%;
@@ -81,8 +94,6 @@ body::before{
 
 }
 
-
-/* البطاقة */
 
 .content{
 
@@ -116,8 +127,6 @@ body::before{
 }
 
 
-/* رقم الكلمة */
-
 .number{
 
     color:#00ffff;
@@ -127,11 +136,8 @@ body::before{
     margin-bottom:15px;
 
     opacity:.7;
-
 }
 
-
-/* الكلمة */
 
 #word{
 
@@ -148,11 +154,8 @@ body::before{
         0 0 25px #00ffff,
 
         0 0 50px #0099ff;
-
 }
 
-
-/* النطق */
 
 #romaji{
 
@@ -161,11 +164,8 @@ body::before{
     color:#9befff;
 
     margin-bottom:35px;
-
 }
 
-
-/* الأزرار */
 
 .buttons{
 
@@ -178,7 +178,6 @@ body::before{
     gap:15px;
 
     direction:ltr;
-
 }
 
 
@@ -204,7 +203,6 @@ button{
         );
 
     transition:.25s;
-
 }
 
 
@@ -217,7 +215,6 @@ button:hover{
         0 0 20px #00cfff,
 
         0 0 40px #0066ff;
-
 }
 
 
@@ -237,7 +234,6 @@ button:hover{
             #168a45,
             #38d66b
         );
-
 }
 
 
@@ -248,11 +244,8 @@ button:hover{
         0 0 20px #38d66b,
 
         0 0 40px #168a45;
-
 }
 
-
-/* خطأ */
 
 #error{
 
@@ -261,7 +254,6 @@ button:hover{
     color:#ff5555;
 
     font-size:28px;
-
 }
 
 
@@ -295,7 +287,6 @@ button:hover{
 
 }
 
-
 </style>
 
 </head>
@@ -310,7 +301,10 @@ button:hover{
     <div id="normalContent">
 
 
-        <div class="number" id="number">
+        <div
+            class="number"
+            id="number"
+        >
 
             Word 01
 
@@ -334,7 +328,9 @@ button:hover{
         <div class="buttons">
 
 
-            <button onclick="playNormal()">
+            <button
+                onclick="playNormal()"
+            >
 
                 🔊 تشغيل الصوت
 
@@ -355,7 +351,10 @@ button:hover{
         </div>
 
 
-        <audio id="audio"></audio>
+        <audio
+            id="audio"
+            preload="auto"
+        ></audio>
 
 
     </div>
@@ -375,7 +374,7 @@ button:hover{
 
 
 /* =====================================================
-   قائمة الكلمات
+   الكلمات
 ===================================================== */
 
 
@@ -400,68 +399,52 @@ const words = [
     ["おめでとう","Omedetou","09_omedetou.wav"],
 
     ["おいしい","Oishii","10_oishii.wav"]
-
-    /* سنضيف باقي الكلمات بعد التأكد أن النظام يعمل */
 
 ];
 
 
 /* =====================================================
-   قراءة الرقم من الرابط
+   قراءة الكلمة من الرابط
 ===================================================== */
 
 
-const words = [
-
-    ["ありがとう","Arigatou","01_arigatou.wav"],
-    ["あぶない","Abunai","02_abunai.wav"],
-    ["いたい","Itai","03_itai.wav"],
-    ["いぬ","Inu","04_inu.wav"],
-    ["うみ","Umi","05_umi.wav"],
-    ["うそ","Uso","06_uso.wav"],
-    ["えっと","Etto","07_etto.wav"],
-    ["えき","Eki","08_eki.wav"],
-    ["おめでとう","Omedetou","09_omedetou.wav"],
-    ["おいしい","Oishii","10_oishii.wav"]
-
-];
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
 
 
-const params = new URLSearchParams(
-    window.location.search
-);
-
-const requestedWord = params.get("word");
+const requestedWord =
+    params.get("word");
 
 
-let index = -1;
+/* =====================================================
+   البحث
+===================================================== */
 
 
-/* البحث بالكلمة اليابانية */
+let index = 0;
 
-if (requestedWord) {
 
-    index = words.findIndex(function(item) {
+if(requestedWord){
 
-        return item[0] === requestedWord;
+    index = words.findIndex(
+        function(item){
 
-    });
+            return item[0] === requestedWord;
+
+        }
+    );
 
 }
 
 
-/* إذا لم يوجد word نعرض الكلمة الأولى */
-
-if (!requestedWord) {
-
-    index = 0;
-
-}
+/* =====================================================
+   إذا لم نجد الكلمة
+===================================================== */
 
 
-/* عرض النتيجة */
-
-if (index === -1) {
+if(index === -1){
 
     document
         .getElementById("normalContent")
@@ -471,24 +454,38 @@ if (index === -1) {
         .getElementById("error")
         .style.display = "block";
 
-} else {
+}
 
-    const data = words[index];
+
+/* =====================================================
+   عرض الكلمة
+===================================================== */
+
+
+else{
+
+    const data =
+        words[index];
+
 
     document
         .getElementById("number")
         .textContent =
-        "Word " + String(index + 1).padStart(2, "0");
+        "Word " +
+        String(index + 1).padStart(2,"0");
+
 
     document
         .getElementById("word")
         .textContent =
         data[0];
 
+
     document
         .getElementById("romaji")
         .textContent =
         data[1];
+
 
     document
         .getElementById("audio")
@@ -505,22 +502,16 @@ if (index === -1) {
 
 function playNormal(){
 
-
     const audio =
         document.getElementById("audio");
 
-
     audio.pause();
 
+    audio.currentTime = 0;
 
-    audio.currentTime=0;
-
-
-    audio.playbackRate=1;
-
+    audio.playbackRate = 1;
 
     audio.play();
-
 
 }
 
@@ -532,22 +523,16 @@ function playNormal(){
 
 function playSlow(){
 
-
     const audio =
         document.getElementById("audio");
 
-
     audio.pause();
 
+    audio.currentTime = 0;
 
-    audio.currentTime=0;
-
-
-    audio.playbackRate=.65;
-
+    audio.playbackRate = 0.65;
 
     audio.play();
-
 
 }
 
@@ -558,4 +543,4 @@ function playSlow(){
 </body>
 
 </html>
-
+```
