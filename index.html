@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Japanese Learn</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+        radial-gradient(circle at 20% 20%, #003b52, transparent 40%),
+        radial-gradient(circle at 80% 80%, #001d38, transparent 40%),
+        linear-gradient(135deg,#02050a,#00151f,#02050a);
+
+    color:white;
+    overflow:hidden;
+}
+
+/* خلفية متحركة */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:-50%;
+
+    background:
+        radial-gradient(circle,rgba(0,255,255,.08) 1px,transparent 2px);
+
+    background-size:35px 35px;
+
+    animation:moveBackground 20s linear infinite;
+
+    pointer-events:none;
+}
+
+@keyframes moveBackground{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(35px,35px);
+    }
+
+}
+
+
+/* البطاقة */
+
+.content{
+
+    position:relative;
+
+    width:min(650px,90%);
+
+    padding:55px 30px;
+
+    text-align:center;
+
+    border-radius:30px;
+
+    background:rgba(10,20,30,.78);
+
+    border:1px solid rgba(0,255,255,.2);
+
+    box-shadow:
+        0 0 30px rgba(0,255,255,.15),
+        0 0 100px rgba(0,0,0,.7);
+
+    backdrop-filter:blur(12px);
+
+}
+
+
+/* الكلمة اليابانية */
+
+#japaneseWord{
+
+    font-size:clamp(55px,10vw,95px);
+
+    margin-bottom:10px;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 10px #fff,
+        0 0 25px #00eaff,
+        0 0 50px #008cff;
+
+}
+
+
+/* Romaji */
+
+#romaji{
+
+    font-size:28px;
+
+    color:#75eaff;
+
+    margin-bottom:10px;
+
+}
+
+
+/* المعنى */
+
+#meaning{
+
+    font-size:21px;
+
+    color:#ddd;
+
+    margin-bottom:35px;
+
+}
+
+
+/* الأزرار */
+
+.audio-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    direction:ltr;
+
+}
+
+
+/* الزر الرئيسي */
+
+.main-button{
+
+    border:none;
+
+    padding:17px 35px;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:20px;
+
+    background:
+        linear-gradient(45deg,#0066ff,#00cfff);
+
+    transition:.25s;
+
+}
+
+
+.main-button:hover{
+
+    transform:scale(1.06);
+
+    box-shadow:
+        0 0 20px #00cfff,
+        0 0 40px #0066ff;
+
+}
+
+
+/* زر السلحفاة */
+
+.slow-button{
+
+    width:62px;
+    height:62px;
+
+    border:none;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    font-size:29px;
+
+    background:
+        linear-gradient(45deg,#12883f,#35d968);
+
+    transition:.25s;
+
+}
+
+
+.slow-button:hover{
+
+    transform:scale(1.1);
+
+    box-shadow:
+        0 0 20px #35d968,
+        0 0 40px #12883f;
+
+}
+
+
+/* الخطأ */
+
+#error{
+
+    display:none;
+
+    font-size:25px;
+
+    color:#ff6b6b;
+
+}
+
+
+/* الهاتف */
+
+@media(max-width:600px){
+
+    .content{
+
+        padding:40px 20px;
+
+    }
+
+    #romaji{
+
+        font-size:22px;
+
+    }
+
+    #meaning{
+
+        font-size:18px;
+
+    }
+
+    .main-button{
+
+        font-size:17px;
+
+        padding:15px 25px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="content">
+
+
+    <h1 id="japaneseWord">
+        جاري التحميل...
+    </h1>
+
+
+    <div id="romaji"></div>
+
+
+    <div id="meaning"></div>
+
+
+    <div id="error">
+        الكلمة غير موجودة
+    </div>
+
+
+    <div class="audio-buttons">
+
+
+        <button
+            class="main-button"
+            onclick="playNormal()">
+
+            🔊 تشغيل الصوت
+
+        </button>
+
+
+        <button
+            class="slow-button"
+            onclick="playSlow()"
+            title="تشغيل ببطء">
+
+            🐢
+
+        </button>
+
+
+    </div>
+
+
+    <audio id="audio"></audio>
+
+
+</div>
+
+
+<script>
+
+
+/* =================================================
+   الكلمات
+================================================= */
+
+const words = {
+
+
+    "ありがとう":{
+
+        romaji:"Arigatou",
+
+        meaning:"شكرًا",
+
+        audio:"Japan/arigatou.wav"
+
+    },
+
+
+    "いたい":{
+
+        romaji:"Itai",
+
+        meaning:"مؤلم / يؤلمني",
+
+        audio:"Japan/itai.wav"
+
+    },
+
+
+    "いす":{
+
+        romaji:"Isu",
+
+        meaning:"كرسي",
+
+        audio:"Japan/isu.wav"
+
+    },
+
+
+    "うみ":{
+
+        romaji:"Umi",
+
+        meaning:"بحر",
+
+        audio:"Japan/umi.wav"
+
+    },
+
+
+    "えっと":{
+
+        romaji:"Etto",
+
+        meaning:"أمم...",
+
+        audio:"Japan/etto.wav"
+
+    },
+
+
+    "おめでとう":{
+
+        romaji:"Omedetou",
+
+        meaning:"مبروك",
+
+        audio:"Japan/omedetou.wav"
+
+    },
+
+
+    "おかえり":{
+
+        romaji:"Okaeri",
+
+        meaning:"مرحبًا بعودتك",
+
+        audio:"Japan/okaeri.wav"
+
+    },
+
+
+    "かわいい":{
+
+        romaji:"Kawaii",
+
+        meaning:"لطيف / جميل",
+
+        audio:"Japan/kawaii.wav"
+
+    },
+
+
+    "きれい":{
+
+        romaji:"Kirei",
+
+        meaning:"جميل / نظيف",
+
+        audio:"Japan/kirei.wav"
+
+    },
+
+
+    "くる":{
+
+        romaji:"Kuru",
+
+        meaning:"يأتي",
+
+        audio:"Japan/kuru.wav"
+
+    },
+
+
+    "こっち":{
+
+        romaji:"Kocchi",
+
+        meaning:"هنا / هذا الاتجاه",
+
+        audio:"Japan/kocchi.wav"
+
+    },
+
+
+    "がんばれ":{
+
+        romaji:"Ganbare",
+
+        meaning:"ابذل جهدك!",
+
+        audio:"Japan/ganbare.wav"
+
+    },
+
+
+    "ぐらい":{
+
+        romaji:"Gurai",
+
+        meaning:"تقريبًا",
+
+        audio:"Japan/gurai.wav"
+
+    },
+
+
+    "げんき":{
+
+        romaji:"Genki",
+
+        meaning:"بخير / نشيط",
+
+        audio:"Japan/genki.wav"
+
+    },
+
+
+    "ごめん":{
+
+        romaji:"Gomen",
+
+        meaning:"آسف",
+
+        audio:"Japan/gomen.wav"
+
+    }
+
+};
+
+
+/* =================================================
+   قراءة الكلمة من QR
+================================================= */
+
+const params =
+    new URLSearchParams(window.location.search);
+
+
+const word =
+    params.get("word");
+
+
+const japaneseWord =
+    document.getElementById("japaneseWord");
+
+
+const romaji =
+    document.getElementById("romaji");
+
+
+const meaning =
+    document.getElementById("meaning");
+
+
+const error =
+    document.getElementById("error");
+
+
+const audio =
+    document.getElementById("audio");
+
+
+/* =================================================
+   تحميل الكلمة
+================================================= */
+
+if(word && words[word]){
+
+    const data = words[word];
+
+
+    japaneseWord.textContent =
+        word;
+
+
+    romaji.textContent =
+        data.romaji;
+
+
+    meaning.textContent =
+        data.meaning;
+
+
+    audio.src =
+        data.audio;
+
+}
+
+else{
+
+    japaneseWord.textContent =
+        "Japanese Learn";
+
+
+    romaji.textContent =
+        "QR غير صحيح";
+
+
+    meaning.textContent =
+        "";
+
+
+    error.style.display =
+        "block";
+
+}
+
+
+/* =================================================
+   الصوت الطبيعي
+================================================= */
+
+function playNormal(){
+
+    if(!audio.src)
+        return;
+
+
+    audio.pause();
+
+    audio.currentTime=0;
+
+    audio.playbackRate=1;
+
+    audio.play();
+
+}
+
+
+/* =================================================
+   الصوت البطيء
+================================================= */
+
+function playSlow(){
+
+    if(!audio.src)
+        return;
+
+
+    audio.pause();
+
+    audio.currentTime=0;
+
+    audio.playbackRate=.65;
+
+    audio.play();
+
+}
+
+</script>
+
+
+</body>
+
+</html>
